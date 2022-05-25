@@ -18,3 +18,5 @@ ln -s "$ZSH_CUSTOM/themes/spaceship-prompt/spaceship.zsh-theme" "$ZSH_CUSTOM/the
 yes | cp -rf .zshrc ~/.zshrc
 
 curl -fsSL https://fnm.vercel.app/install | zsh
+
+chsh -s $(which zsh)
