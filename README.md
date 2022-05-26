@@ -1,1 +1,1 @@
-curl -fsSL https://linux-auto-config.vercel.app/config.sh | zsh
+curl -fsSL https://linux-auto-config.vercel.app/config.sh | bash
