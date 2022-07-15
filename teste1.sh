@@ -1,3 +1,5 @@
+#!/bin/bash
+
 PS3="Select a day (1-4): "
 select i in mon tue wed exit; do
   case $i in
