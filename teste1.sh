@@ -1,11 +1,13 @@
 #!/bin/bash
-echo "Do you wish to install this program?"
-select yn in "Yes" "No"; do
+
+while true; do
+  read -p "Do you wish to install this program? " yn
   case $yn in
-  Yes)
+  [Yy]*)
     make install
     break
     ;;
-  No) exit ;;
+  [Nn]*) exit ;;
+  *) echo "Please answer yes or no." ;;
   esac
 done
