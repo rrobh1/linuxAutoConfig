@@ -1,57 +1,48 @@
 #!/usr/bin/env bash
 defaultInstall() {
-echo 1
+  echo 1
 }
 
-
-
-
-
-
-
-
-
 PS3='Digite para instalar as opções selecionadas: '
-options=("Padrão" "Remmina" "OpenJdk8" "Eclipse" "HTOP" "NodeJs" "DBeaver" "Flathub" "All" "Sair" )
+options=("Padrão" "Remmina" "OpenJdk8" "Eclipse" "HTOP" "NodeJs" "DBeaver" "Flathub" "All" "Sair")
 
-select opt in "${options[@]}"
-do
-    case $opt in
-        "Remmina")
-            echo "you chose choice 1"
-            ;;
-        "OpenJdk8")
-            echo "you chose choice 2"
-            ;;
-        "Eclipse")
-            echo "you chose choice $REPLY which is $opt"
-            ;;
-        "HTOP")
-            echo "you chose choice 1"
-            ;;
-        "NodeJs")
-            echo "you chose choice 2"
-            ;;
-        "DBeaver")
-            echo "you chose choice $REPLY which is $opt"
-            ;;
-        "Flathub")
-            echo "you chose choice $REPLY which is $opt"
-            ;;
-        "All")
-            echo "you chose choice $REPLY which is $opt"
-            ;;
-        "DBeaver")
-            echo "you chose choice $REPLY which is $opt"
-            ;;
-        "Padrão")
-            echo "you chose choice $REPLY which is $opt"
-            ;;
-        "Quit")
-            break
-            ;;
-        *) echo "invalid option $REPLY";;
-    esac
+select opt in "${options[@]}"; do
+  case $opt in
+  "Remmina")
+    echo "you chose choice 1"
+    ;;
+  "OpenJdk8")
+    echo "you chose choice 2"
+    ;;
+  "Eclipse")
+    echo "you chose choice $REPLY which is $opt"
+    ;;
+  "HTOP")
+    echo "you chose choice 1"
+    ;;
+  "NodeJs")
+    echo "you chose choice 2"
+    ;;
+  "DBeaver")
+    echo "you chose choice $REPLY which is $opt"
+    ;;
+  "Flathub")
+    echo "you chose choice $REPLY which is $opt"
+    ;;
+  "All")
+    echo "you chose choice $REPLY which is $opt"
+    ;;
+  "DBeaver")
+    echo "you chose choice $REPLY which is $opt"
+    ;;
+  "Padrão")
+    defaultInstall
+    ;;
+  "Quit")
+    break
+    ;;
+  *) echo "invalid option $REPLY" ;;
+  esac
 done
 
 # instalação dos pacotes necessários para o funcionamento do sistema
@@ -110,7 +101,7 @@ if [ ["${selecionadas[@]}" =~ "3"]]; then
   Terminal=false
   StartupNotify=true
   Icon=/home/'$USER'/Programs/eclipse/icon.xpm
-  Name[en_US]=Eclipse' >> /home/$USER/.local/share/applications/eclipse.desktop
+  Name[en_US]=Eclipse' >>/home/$USER/.local/share/applications/eclipse.desktop
   echo 'Eclipse instalado com sucesso'
 fi
 if [ ["${selecionadas[@]}" =~ "4"]]; then
