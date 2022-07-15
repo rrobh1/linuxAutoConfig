@@ -127,10 +127,10 @@ tilixConfig() {
 PS3='Digite para instalar as opções selecionadas: '
 options=("Padrão" "Remmina" "OpenJdk8" "Eclipse" "HTOP" "NodeJs" "DBeaver" "Flathub" "All" "Sair")
 
-defaultInstall
-vscode
-ohmyzsh
-tilixConfig
+# defaultInstall
+# vscode
+# ohmyzsh
+# tilixConfig
 
 select opt in "${options[@]}"; do
   case $opt in
