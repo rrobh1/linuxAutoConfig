@@ -1,4 +1,5 @@
-#!/usr/bin/env bash
+#!/bin/bash
+
 defaultInstall() {
   # instalação dos pacotes necessários para o funcionamento do sistema
   echo 'Instalando ZSH'
