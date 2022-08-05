@@ -140,20 +140,27 @@ gitConfig() {
 
 [ ! -x "$(which dialog)" ] && sudo apt install dialog 1> /dev/null 2>&1
 
+mkdir Programs
+mkdir temp
+
 while :
 do
   opt=$(dialog --title "Linux Auto Config 1.0" \
                 --stdout \
                 --checklist "O que você quer instalar?" \
                 0 0 0 \
-                Padrão    "Aplicações de uso comum"               on \
-                Remmina   "Acesso Remoto"                         off \
-                OpenJdk8  "Remover um usuário do sistema"         off \
-                Eclipse   "Remover um usuário do sistema"         off \
-                REPLACE      "Remover um usuário do sistema"         off \
-                REPLACE    "Remover um usuário do sistema"         off \
-                REPLACE   "Remover um usuário do sistema"         off \
-                Flathub   "Remover um usuário do sistema"         off \
+                VsCode    "Code editing"               on \
+                HTOP    "Aplicações de uso comum"               on \
+                OpenJdk8    "Aplicações de uso comum"               on \
+                Eclipse    "Aplicações de uso comum"               on \
+                NodeJs    "Aplicações de uso comum"               on \
+                DBeaver    "Aplicações de uso comum"               on \
+                Flathub    "Aplicações de uso comum"               on \
+                ZSH   "Remover um usuário do sistema"         off \
+                GIT   "Remover um usuário do sistema"         off \
+                Tilix   "Remover um usuário do sistema"         off \
+                ohmyzsh   "Remover um usuário do sistema"         off \
+                tilixConfig   "Remover um usuário do sistema"         off \
                 gitConfig   "Inserir um novo usuário no sistema"    off)
   [ $? -ne 0 ] && exit
   options=($opt)
