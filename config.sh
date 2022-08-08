@@ -1,54 +1,100 @@
 #!/usr/bin/env bash
-defaultInstall() {
-  # instalação dos pacotes necessários para o funcionamento do sistema
-  echo 'Instalando ZSH'
-  sudo apt-get install zsh #ALWAYS
-  echo 'ZSH instalado com sucesso'
 
-  echo "Instalando Git"
-  sudo apt-get install git #ALWAYS
-  echo 'Git instalado com sucesso'
-
-  echo "Instalando Tilix"
-  sudo apt-get install tilix #ALWAYS
-  echo 'Tilix instalado com sucesso'
-
-  # Criação de pastas
-  echo 'Criando pastas'
-
-  echo 'Criando pasta Programs'
+start() {
+  # [ ! -x "$(which dialog)" ] && sudo apt install dialog 1> /dev/null 2>&1
   mkdir Programs
-
-  echo 'Criando pasta Temp'
   mkdir temp
+}
 
-  # Direcionamento para pasta temporaria
-  echo 'Entrando na pasta Temp'
-  cd temp
+tilix() {
+  (
+    echo "25"; sleep 1
+    echo "# Instalando Tilix" ; sudo apt-get install tilix
+    echo "50" ; sleep 1
+    echo "# Configurando Tilix...." ; tilixConfig
+    echo "90" ; sleep 1
+    echo "# Tilix instalado com sucesso" ; sleep 1
+    echo "100" ; sleep 1
+  ) |
+  zenity --progress \
+  --title="Instalando Tilix" \
+  --text="Instalando..." \
+  --auto-close \
+  --percentage=0
+}
 
+git() {
+  (
+    echo "25"; sleep 1
+    echo "# Instalando Git" ; sudo apt-get install git
+    echo "50" ; sleep 1
+    #echo "# Configurando Git...." ; gitConfig
+    #echo "90" ; sleep 1
+    echo "# Git instalado com sucesso" ; sleep 1
+    echo "100" ; sleep 1
+  ) |
+  zenity --progress \
+  --title="Instalando Git" \
+  --text="Instalando..." \
+  --auto-close \
+  --percentage=0
+}
+
+zsh() {
+  (
+    echo "25"; sleep 1
+    echo "# Instalando Zsh" ; sudo apt-get install zsh
+    echo "50" ; sleep 1
+    echo "# Configurando Zsh...." ; ohmyzsh
+    echo "90" ; sleep 1
+    echo "# ZSH instalado com sucesso" ; sleep 1
+    echo "100" ; sleep 1
+  ) |
+  zenity --progress \
+  --title="Instalando ZSH" \
+  --text="Instalando..." \
+  --auto-close \
+  --percentage=0
 }
 
 remmina() {
-  dialog --msgbox "Instalando Remmina"
-  sudo apt-get install remmina #SOMETIMES
-  dialog --msgbox "Remmina instalado com sucesso"
+  (
+    echo "25"; sleep 1
+    echo "# Instalando Remmina" ; sudo apt-get install remmina
+    echo "65" ; sleep 1
+    echo "# Remmina instalado com sucesso" ; sleep 1
+    echo "100" ; sleep 1
+  ) |
+  zenity --progress \
+  --title="Instalando Remmina" \
+  --text="Instalando..." \
+  --auto-close \
+  --percentage=0
 }
 
 openjdk8() {
-  echo 'Instalando OpenJdk8'
-  sudo apt-get install openjdk-8-jre #SOMETIMES
-  echo 'OpenJdk8 instalado com sucesso'
+  (
+    echo "25"; sleep 1
+    echo "# Instalando OpenJdk8" ; sudo apt-get install openjdk-8-jre
+    echo "65" ; sleep 1
+    echo "# OpenJdk8 instalado com sucesso" ; sleep 1
+    echo "100" ; sleep 1
+  ) |
+  zenity --progress \
+  --title="Instalando OpenJdk8" \
+  --text="Instalando..." \
+  --auto-close \
+  --percentage=0
 }
 
 eclipse() {
-  # Instalação do Eclipse
-  echo 'Instalando Eclipse'
-  # Download do eclipse
-  wget https://www.eclipse.org/downloads/download.php?file=/technology/epp/downloads/release/luna/SR2/eclipse-java-luna-SR2-linux-gtk-x86_64.tar.gz -P ~/temp
-  # Descompactação do arquivo
-  tar -xf download.php\?file=%2Ftechnology%2Fepp%2Fdownloads%2Frelease%2Fluna%2FSR2%2Feclipse-java-luna-SR2-linux-gtk-x86_64.tar.gz -C ~/Programs
-  # Atalho para o eclipse
-  echo -e '[Desktop Entry]
+  (
+    echo "25"; sleep 1
+    echo "# Baixando Eclipse" ; wget https://www.eclipse.org/downloads/download.php?file=/technology/epp/downloads/release/luna/SR2/eclipse-java-luna-SR2-linux-gtk-x86_64.tar.gz -P ~/temp
+    echo "50" ; sleep 1
+    echo "# Descompactando Eclipse...." ; tar -xf download.php\?file=%2Ftechnology%2Fepp%2Fdownloads%2Frelease%2Fluna%2FSR2%2Feclipse-java-luna-SR2-linux-gtk-x86_64.tar.gz -C ~/Programs
+    echo "75" ; sleep 1
+    echo "# Criando atalho Eclipse" ; echo -e '[Desktop Entry]
     Version=1.0
     Name=Eclipse
     Comment=Java IDE
@@ -59,148 +105,224 @@ eclipse() {
     StartupNotify=true
     Icon=/home/'$USER'/Programs/eclipse/icon.xpm
     Name[en_US]=Eclipse' >>/home/$USER/.local/share/applications/eclipse.desktop
-  echo 'Eclipse instalado com sucesso'
+    echo "95" ; sleep 1
+    echo "# Eclipse instalado com sucesso" ; sleep 1
+    echo "100" ; sleep 1
+  ) |
+  zenity --progress \
+  --title="Instalando Eclipse" \
+  --text="Instalando..." \
+  --auto-close \
+  --percentage=0
 }
 
 htop() {
-  # Instalação do HTOP
-  echo 'Instalando HTOP'
-  sudo apt-get install htop #SOMETIMES
-  echo 'HTOP instalado com sucesso'
+  (
+    echo "25"; sleep 1
+    echo "# Instalando HTOP" ; sudo apt-get install htop
+    echo "65" ; sleep 1
+    echo "# HTOP instalado com sucesso" ; sleep 1
+    echo "100" ; sleep 1
+  ) |
+  zenity --progress \
+  --title="Instalando HTOP" \
+  --text="Instalando..." \
+  --auto-close \
+  --percentage=0
 }
 
 node() {
-  # Instalação gerenciador nodejs (FNM)
-  echo 'Instalando NodeJs'
-  curl -fsSL https://fnm.vercel.app/install | zsh
-  echo 'NodeJs instalado com sucesso'
+  (
+    echo "25"; sleep 1
+    echo "# Instalando NodeJS" ; curl -fsSL https://fnm.vercel.app/install | zsh
+    echo "65" ; sleep 1
+    echo "# NodeJs instalado com sucesso" ; sleep 1
+    echo "100" ; sleep 1
+  ) |
+  zenity --progress \
+  --title="Instalando NodeJs (FNM)" \
+  --text="Instalando..." \
+  --auto-close \
+  --percentage=0
 }
 
 dbeaver() {
-  # Instalação do DBeaver
-  echo 'Instalando DBeaver'
-  sudo apt-get install dbeaver #SOMETIMES
-  echo 'DBeaver instalado com sucesso'
+  (
+    echo "25"; sleep 1
+    echo "# Instalando DBeaver" ; sudo apt-get install dbeaver
+    echo "65" ; sleep 1
+    echo "# DBeaver instalado com sucesso" ; sleep 1
+    echo "100" ; sleep 1
+  ) |
+  zenity --progress \
+  --title="Instalando DBeaver" \
+  --text="Instalando..." \
+  --auto-close \
+  --percentage=0
 }
 
 ohmyzsh() {
-  echo 'Instalando o oh-my-zsh'
-  # Instalação do zsh
-  sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-  echo 'oh-my-zsh instalado com sucesso'
-  echo 'Baixando tema do zsh'
-  git clone https://github.com/denysdovhan/spaceship-prompt.git "$ZSH_CUSTOM/themes/spaceship-prompt"
-  ln -s "$ZSH_CUSTOM/themes/spaceship-prompt/spaceship.zsh-theme" "$ZSH_CUSTOM/themes/spaceship.zsh-theme"
-
-  yes | cp -rf .zshrc ~/.zshrc
-
-  chsh -s $(which zsh)
-
+  (
+    echo "15"; sleep 1
+    echo "# Instalando oh-my-zsh" ; sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+    echo "25" ; sleep 1
+    echo "# Baixando tema do zsh" ; git clone https://github.com/denysdovhan/spaceship-prompt.git "$ZSH_CUSTOM/themes/spaceship-prompt" 
+    echo "50" ; sleep 1
+    echo "# Configurando tema do zsh" ; ln -s "$ZSH_CUSTOM/themes/spaceship-prompt/spaceship.zsh-theme" "$ZSH_CUSTOM/themes/spaceship.zsh-theme"
+    echo "75" ; sleep 1
+    echo "# Configurando tema do zsh" ; yes | cp -rf .zshrc ~/.zshrc > chsh -s $(which zsh)
+    echo "90" ; sleep 1
+    echo "# ZSH configurado com sucesso" ; sleep 1
+    echo "100" ; sleep 1
+  ) |
+  zenity --progress \
+  --title="Configurando oh-my-zsh" \
+  --text="Configurando..." \
+  --auto-close \
+  --percentage=0
 }
 
 vscode() {
-  echo 'Baixando VsCode'
-  wget https://az764295.vo.msecnd.net/stable/30d9c6cd9483b2cc586687151bcbcd635f373630/code_1.68.1-1655263094_amd64.deb -P ~/temp
-  echo 'Instalando VsCode'
-  # Instalação dos programas baixados
-  sudo dpkg -i code_1.68.1-1655263094_amd64.deb
+  (
+    echo "10"; sleep 1
+    echo "# Instalando VsCode" ; sudo apt-get install wget gpg
+    echo "20" ; sleep 1
+    echo "# Instalando VsCode" ; wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg 
+    echo "30" ; sleep 1
+    echo "# Instalando VsCode" ; sudo install -D -o root -g root -m 644 packages.microsoft.gpg /etc/apt/keyrings/packages.microsoft.gpg
+    echo "40" ; sleep 1
+    echo "# Instalando VsCode" ; sudo sh -c 'echo "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" > /etc/apt/sources.list.d/vscode.list'
+    echo "50" ; sleep 1
+    echo "# Instalando VsCode" ; rm -f packages.microsoft.gpg    
+    echo "60" ; sleep 1
+    echo "# Instalando VsCode" ; sudo apt install apt-transport-https 
+    echo "70" ; sleep 1
+    echo "# Instalando VsCode" ; sudo apt update  
+    echo "80" ; sleep 1
+    echo "# Instalando VsCode" ; sudo apt install code
+    echo "90" ; sleep 1
+    echo "# VsCode instalado com sucesso" ; sleep 1
+    echo "100" ; sleep 1
+  ) |
+  zenity --progress \
+  --title="Instalando VsCode" \
+  --text="Instalando..." \
+  --auto-close \
+  --percentage=0
 }
 
 tilixConfig() {
-  # Download e configuração Tilix
-  echo 'Baixando tema Dracula para o tilix'
-  wget https://github.com/dracula/tilix/archive/master.zip -P ~/temp
-  echo 'Descompactando o tema Dracula'
-  # Unzip dos arquivos baixados
-  unzip master.zip
-  # Configuração do Tilix
-  mkdir ~/.config/tilix
-  mkdir ~/.config/tilix/schemes
-
-  mv tilix-master/Dracula.json ~/.config/tilix/schemes
-
-  echo 'Defina o terminal padrão para o Tilix'
-  #Configuração do terminal
-  sudo update-alternatives --config x-terminal-emulator
+  (
+    echo "10"; sleep 1
+    echo "# Baixando tema Dracula para o tilix" ; wget https://github.com/dracula/tilix/archive/master.zip -P ~/temp
+    echo "25" ; sleep 1
+    echo "# Descompactando o tema Dracula" ; unzip ~/temp/master.zip -d ~/temp    
+    echo "35" ; sleep 1
+    echo "# Criando diretorios Tilix" ; mkdir ~/.config/tilix ; mkdir ~/.config/tilix/schemes
+    echo "50" ; sleep 1
+    echo "# Movendo arquivos de configuração" ; mv ~/temp/tilix-master/Dracula.json ~/.config/tilix/schemes
+    echo "75" ; sleep 1
+    echo "# Definindo como terminal padrão" ; sudo update-alternatives --config x-terminal-emulator
+    echo "90" ; sleep 1
+    echo "# Tilix configurado com sucesso" ; sleep 1
+    echo "100" ; sleep 1
+  ) |
+  zenity --progress \
+  --title="Configurando Tilix" \
+  --text="Configurando..." \
+  --auto-close \
+  --percentage=0
 }
 
 gitConfig() {
-  # Configuração do Git
-  nome=$(dialog --title 'Configurar o Git' \
-          --stdout \
-          --inputbox "Digite o nome do usuário" \
-          8 40)
-  email=$(dialog --title 'Configurar o Git' \
-          --stdout \
-          --inputbox "Digite o email do usuário" \
-          8 40)          
-  git config --global user.name "$nome"
-  git config --global user.email "$email"
+  NOME=$(zenity --title "Configurando o Git" \
+                --text "Digite o nome do usuário do Git" \
+                --width=500 \
+                --entry)
+  EMAIL=$(zenity --title "Configurando o Git" \
+                --text "Digite o email do usuário do Git" \
+                --width=500 \
+                --entry)
+  
+  git config --global user.name "$NOME"
+  git config --global user.email "$EMAIL"
 }
 
-[ ! -x "$(which dialog)" ] && sudo apt install dialog 1> /dev/null 2>&1
 
-mkdir Programs
-mkdir temp
+start
 
 while :
 do
-  opt=$(dialog --title "Linux Auto Config 1.0" \
-                --stdout \
-                --checklist "O que você quer instalar?" \
-                0 0 0 \
-                VsCode    "Code editing"               on \
-                HTOP    "Aplicações de uso comum"               on \
-                OpenJdk8    "Aplicações de uso comum"               on \
-                Eclipse    "Aplicações de uso comum"               on \
-                NodeJs    "Aplicações de uso comum"               on \
-                DBeaver    "Aplicações de uso comum"               on \
-                Flathub    "Aplicações de uso comum"               on \
-                ZSH   "Remover um usuário do sistema"         off \
-                GIT   "Remover um usuário do sistema"         off \
-                Tilix   "Remover um usuário do sistema"         off \
-                ohmyzsh   "Remover um usuário do sistema"         off \
-                tilixConfig   "Remover um usuário do sistema"         off \
-                gitConfig   "Inserir um novo usuário no sistema"    off)
-  [ $? -ne 0 ] && exit
-  options=($opt)
+  opt=$(zenity --title "Linux Auto Config 1.0" \
+      --text "O que você quer instalar?" \
+      --width=500 \
+      --height=500 \
+      --list \
+      --checklist \
+      --column "Instalar" \
+      --column "Programa" \
+      TRUE "GIT" \
+      TRUE "ZSH" \
+      TRUE "Tilix" \
+      TRUE "VsCode" \
+      TRUE "ohmyzsh" \
+      TRUE "tilixConfig" \
+      TRUE "gitConfig" \
+      HTOP "Htop" \
+      FALSE "Remmina" \
+      FALSE "OpenJdk8" \
+      FALSE "Eclipse" \
+      FALSE "NodeJs" \
+      FALSE "DBeaver" \
+      FALSE "Flathub" \
+      FALSE "REPLACE")
+  [ $? -ne 0 ] && exit 
+  array="${opt//|/ }"
+  options=($array)
   for value in "${options[@]}"; do
     case "$value" in
       "Remmina")
-        remmina
-        ;;
+      remmina
+      ;;
+      "VsCode")
+      vscode
+      ;;
       "OpenJdk8")
-        openjdk8
-        ;;
+      openjdk8
+      ;;
       "Eclipse")
-        eclipse
-        ;;
-      "HTOP")
-        htop
-        ;;
+      eclipse
+      ;;
       "NodeJs")
-        node
-        ;;
+      node
+      ;;
       "DBeaver")
-        dbeaver
-        ;;
+      dbeaver
+      ;;
       "Flathub")
-        echo "you chose choice $REPLY which is $opt"
-        ;;
+      
+      ;;
+      "HTOP")
+      htop
+      ;;
+      "ZSH")
+      zsh
+      ;;
+      "GIT")
+      git
+      ;;
+      "ohmyzsh")
+      ohmyzsh
+      ;;
+      "tilixConfig")
+      tilixConfig
+      ;;
       "gitConfig")
-        gitConfig
-        ;;
-      "Padrão")
-        defaultInstall
-        dbeaver
-        node
-        htop
-        vscode
-
-        gitConfig
-        ohmyzsh
-        tilixConfig
-        ;;
+      gitConfig
+      ;;
+      "Tilix")
+      tilix
+      ;;
     esac
   done
 done
