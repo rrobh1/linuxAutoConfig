@@ -248,6 +248,44 @@ gitConfig() {
   git config --global user.email "$EMAIL"
 }
 
+chrome() {
+  (
+    echo "25"; sleep 1
+    echo "# Baixando Chrome" ; wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+    echo "45" ; sleep 1
+    echo "# Instalando o Chrome" ; sudo apt install ./google-chrome-stable_current_amd64.deb
+    echo "65" ; sleep 1
+    echo "# Chrome instalado com sucesso" ; sleep 1
+    echo "100" ; sleep 1
+  ) |
+  zenity --progress \
+  --title="Instalando Chrome" \
+  --text="Instalando..." \
+  --auto-close \
+  --percentage=0
+}
+
+msTeams() {
+  (
+    echo "25"; sleep 1
+    echo "# Baixando MsTeams" ; curl https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add -
+    echo "45" ; sleep 1
+    echo "# Instalando pacotes MsTeams" ; sudo sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/ms-teams stable main" > /etc/apt/sources.list.d/teams.list'
+    echo "65" ; sleep 1
+    echo "# Atualizando pacotes" ; sudo apt update
+    echo "75" ; sleep 1
+    echo "# Instalando o MsTeams" ; sudo apt install teams
+    echo "85" ; sleep 1
+    echo "# MsTeams instalado com sucesso" ; sleep 1
+    echo "100" ; sleep 1
+  ) |
+  zenity --progress \
+  --title="Instalando MsTeams" \
+  --text="Instalando..." \
+  --auto-close \
+  --percentage=0
+}
+
 
 start
 
@@ -275,6 +313,8 @@ do
       FALSE "NodeJs" \
       FALSE "DBeaver" \
       FALSE "Flathub" \
+      FALSE "Chrome" \
+      FALSE "Teams" \
       FALSE "REPLACE")
   [ $? -ne 0 ] && exit 
   array="${opt//|/ }"
@@ -299,8 +339,11 @@ do
       "DBeaver")
       dbeaver
       ;;
-      "Flathub")
-      
+      "Chrome")
+      chrome
+      ;;      
+      "Teams")
+      msTeams
       ;;
       "HTOP")
       htop
